@@ -1,9 +1,15 @@
+/* ========================================
+   PAGE DE CONNEXION - Styles
+   ======================================== */
+
+/* Layout principal : grid 2 colonnes (brand sidebar + form panel) */
 .login {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   min-height: 100vh;
 }
 
+/* ==== SIDEBAR DE BRANDING ==== */
 .login__brand {
   background: var(--ink);
   color: var(--paper);
@@ -14,18 +20,21 @@
   padding: 4rem;
 }
 
+/* Titre "Waypoint" */
 .login__mark {
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 600;
 }
 
+/* Tagline sous le titre */
 .login__tagline {
   max-width: 22ch;
   color: #c7ccc2;
   line-height: 1.5;
 }
 
+/* ==== PANNEAU FORMULAIRE ==== */
 .login__panel {
   display: flex;
   align-items: center;
@@ -34,6 +43,7 @@
   padding: 2rem;
 }
 
+/* Conteneur du formulaire */
 .login__form {
   width: 100%;
   max-width: 22rem;
@@ -41,23 +51,27 @@
   flex-direction: column;
 }
 
+/* Titre du formulaire */
 .login__form h1 {
   margin: 0 0 0.25rem;
   font-family: var(--font-display);
   font-size: 1.6rem;
 }
 
+/* Sous-titre du formulaire */
 .login__subtitle {
   margin: 0 0 1.5rem;
   color: var(--text-muted);
 }
 
+/* Labels des champs */
 .login__form label {
   font-size: 0.85rem;
   font-weight: 500;
   margin-top: 0.75rem;
 }
 
+/* Champs input (email, password) */
 .login__form input {
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -67,18 +81,30 @@
   font-family: inherit;
 }
 
+/* État focus pour les inputs */
 .login__form input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
+/* Désactivation des inputs (lors de soumission) */
+.login__form input:disabled {
+  opacity: 0.7;
+  background-color: var(--paper);
+  cursor: not-allowed;
+}
+
+/* Affichage des messages d'erreur */
 .login__error {
   color: var(--error);
   font-size: 0.85rem;
   margin: 0.6rem 0 0;
 }
 
-.login__form button {
+/* ==== BOUTONS ==== */
+
+/* Bouton principal "Se connecter" et "Envoyer les instructions" */
+.login__form button[type="submit"] {
   margin-top: 1.5rem;
   padding: 0.7rem;
   border: none;
@@ -88,13 +114,21 @@
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
-.login__form button:disabled {
+/* État hover du bouton de soumission */
+.login__form button[type="submit"]:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* État désactivé du bouton (pendant soumission) */
+.login__form button[type="submit"]:disabled {
   opacity: 0.7;
   cursor: progress;
 }
 
+/* Lien "Mot de passe oublié?" */
 .login__forgot-link {
   background: none;
   border: none;
@@ -106,31 +140,45 @@
   text-align: left;
   text-decoration: underline;
   font-family: inherit;
+  transition: opacity 0.2s ease;
 }
 
-.login__forgot-link:hover {
+/* État hover du lien */
+.login__forgot-link:hover:not(:disabled) {
   opacity: 0.8;
 }
 
+/* État focus du lien */
 .login__forgot-link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
-/* Modal Styles */
+/* État désactivé du lien */
+.login__forgot-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   MODAL - Réinitialisation mot de passe
+   ======================================== */
+
+/* Backdrop (zone transparente) */
 .login__modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(20, 23, 31, 0.5); /* --ink with transparency */
+  background: rgba(20, 23, 31, 0.5); /* --ink avec transparence */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
+/* Boîte du modal (carte centrale) */
 .login__modal {
   background: var(--paper-raised);
   border-radius: 8px;
@@ -141,12 +189,14 @@
   position: relative;
 }
 
+/* Titre du modal */
 .login__modal h2 {
   margin: 0 0 0.25rem;
   font-family: var(--font-display);
   font-size: 1.3rem;
 }
 
+/* Bouton de fermeture (×) */
 .login__modal-close {
   position: absolute;
   top: 1rem;
@@ -158,38 +208,69 @@
   color: var(--text-muted);
   padding: 0.25rem 0.5rem;
   line-height: 1;
+  transition: color 0.2s ease;
 }
 
+/* État hover du bouton close */
 .login__modal-close:hover {
   color: var(--ink);
 }
 
+/* État focus du bouton close */
 .login__modal-close:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
+/* Div de message de succès */
 .login__modal-success {
   text-align: center;
   padding: 1rem 0;
 }
 
+/* Titre du succès */
 .login__modal-success h2 {
   color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
+/* Texte du message de succès */
 .login__modal-success p {
   color: var(--text-muted);
   line-height: 1.5;
 }
 
+/* ========================================
+   RESPONSIVE - Mobile
+   ======================================== */
 @media (max-width: 720px) {
+  /* Layout en colonne unique sur mobile */
   .login {
     grid-template-columns: 1fr;
   }
 
+  /* Réduit le padding du sidebar sur mobile */
   .login__brand {
     padding: 2.5rem 2rem;
   }
+
+  /* Le modal occupe plus d'espace sur mobile */
+  .login__modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
 }
+
+/* ========================================
+   ACCESSIBILITÉ
+   ======================================== */
+
+/* Force la visibilité du focus pour les lecteurs d'écran */
+@media (prefers-reduced-motion: reduce) {
+  .login__form input,
+  .login__forgot-link,
+  .login__modal-close {
+    transition: none;
+  }
+}
+

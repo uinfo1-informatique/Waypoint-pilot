@@ -1,23 +1,67 @@
+/**
+ * ========================================
+ * TOKENS DE DESIGN - Variables CSS globales
+ * ========================================
+ * 
+ * Centralisez les couleurs, typographies et espacements
+ * pour maintenir la cohérence visuelle et faciliter les modifications.
+ * 
+ * Utilisez ces variables dans les fichiers CSS :
+ *   background: var(--accent);
+ *   color: var(--text-muted);
+ */
+
 :root {
+  /* ---- COULEURS DE BASE ---- */
+  
+  /* Noir principal - utilisé pour le texte et les éléments sombres */
   --ink: #14171f;
+  
+  /* Gris très clair - utilisé pour les arrière-plans */
   --paper: #f2f3ef;
+  
+  /* Blanc pur - utilisé pour les surfaces relevées (panels, modals) */
   --paper-raised: #ffffff;
+  
+  /* Vert principal - utilisé pour les boutons et actions primaires */
   --accent: #3f6d53;
+  
+  /* Or - utilisé pour les accents secondaires et highlights */
   --gold: #d9a441;
+  
+  /* Gris moyen - utilisé pour les bordures */
   --border: #d7d9d3;
+  
+  /* Gris foncé - utilisé pour le texte secondaire et muted */
   --text-muted: #5b5f57;
+  
+  /* Rouge/Marron - utilisé pour les messages d'erreur */
   --error: #a5352a;
+
+  /* ---- TYPOGRAPHIE ---- */
+  
+  /* Serif élégante - utilisée pour les titres et headings */
   --font-display: 'Fraunces', serif;
+  
+  /* Font UI système - utilisée pour le texte courant et l'interface */
   --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* ========================================
+   STYLES GLOBAUX
+   ======================================== */
+
+/* Reset : tous les éléments utilisent border-box pour le calcul des dimensions */
 * {
   box-sizing: border-box;
 }
 
+/* Styles du body */
 body {
   margin: 0;
   font-family: var(--font-ui);
   color: var(--ink);
   background: var(--paper);
+  /* Les polices se chargent grace à index.html : Fraunces (display) et Inter (ui) */
 }
+
