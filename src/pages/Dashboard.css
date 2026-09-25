@@ -1,0 +1,120 @@
+.dashboard {
+  min-height: 100vh;
+}
+
+.dashboard__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--paper-raised);
+}
+
+.dashboard__mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.dashboard__account {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.dashboard__account button {
+  border: 1px solid var(--border);
+  background: transparent;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dashboard__main {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.dashboard__main h1 {
+  font-family: var(--font-display);
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.dashboard__subtitle {
+  color: var(--text-muted);
+  margin: 0.3rem 0 2.5rem;
+}
+
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.dashboard__stat {
+  background: var(--paper-raised);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dashboard__stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+}
+
+.dashboard__stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.dashboard__projects h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard__projects ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.dashboard__projects li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1.5rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.dashboard__project-status {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.dashboard__project-updated {
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .dashboard__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__projects li {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

@@ -1,0 +1,23 @@
+:root {
+  --ink: #14171f;
+  --paper: #f2f3ef;
+  --paper-raised: #ffffff;
+  --accent: #3f6d53;
+  --gold: #d9a441;
+  --border: #d7d9d3;
+  --text-muted: #5b5f57;
+  --error: #a5352a;
+  --font-display: 'Fraunces', serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--paper);
+}
