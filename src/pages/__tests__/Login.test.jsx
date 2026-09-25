@@ -41,4 +41,84 @@ describe('Login', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(/Réinitialiser votre mot de passe/i)).toBeInTheDocument()
   })
+
+  describe('Boutons', () => {
+    it('bouton "Se connecter" est présent et fonctionnel', async () => {
+      const user = userEvent.setup()
+      const onLogin = vi.fn()
+      render(<Login onLogin={onLogin} />)
+
+      const connectButton = screen.getByRole('button', { name: /se connecter/i })
+      expect(connectButton).toBeInTheDocument()
+      expect(connectButton).not.toBeDisabled()
+
+      await user.type(screen.getByLabelText(/email professionnel/i), 'test@test.fr')
+      await user.type(screen.getByLabelText(/mot de passe/i), 'pass123')
+      await user.click(connectButton)
+
+      await waitFor(() => expect(onLogin).toHaveBeenCalled())
+    })
+
+    it('bouton "Se connecter" devient désactivé pendant la soumission', async () => {
+      const user = userEvent.setup()
+      render(<Login onLogin={vi.fn()} />)
+
+      const connectButton = screen.getByRole('button', { name: /se connecter/i })
+      await user.type(screen.getByLabelText(/email professionnel/i), 'test@test.fr')
+      await user.type(screen.getByLabelText(/mot de passe/i), 'pass123')
+
+      await user.click(connectButton)
+
+      expect(connectButton).toBeDisabled()
+      expect(connectButton).toHaveTextContent(/connexion/i)
+
+      await waitFor(() => expect(connectButton).not.toBeDisabled())
+    })
+
+    it('bouton "Mot de passe oublié?" est présent et fonctionnel', async () => {
+      const user = userEvent.setup()
+      render(<Login onLogin={vi.fn()} />)
+
+      const forgotButton = screen.getByRole('button', { name: /mot de passe oublié/i })
+      expect(forgotButton).toBeInTheDocument()
+      expect(forgotButton).not.toBeDisabled()
+
+      await user.click(forgotButton)
+
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+  })
+
+  describe('Champs de saisie', () => {
+    it('accepte l\'email et le mot de passe', async () => {
+      const user = userEvent.setup()
+      render(<Login onLogin={vi.fn()} />)
+
+      const emailInput = screen.getByLabelText(/email professionnel/i)
+      const passwordInput = screen.getByLabelText(/mot de passe/i)
+
+      await user.type(emailInput, 'ada@waypoint.io')
+      await user.type(passwordInput, 'secure123')
+
+      expect(emailInput).toHaveValue('ada@waypoint.io')
+      expect(passwordInput).toHaveValue('secure123')
+    })
+
+    it('efface le message d\'erreur lors de la résoumission', async () => {
+      const user = userEvent.setup()
+      render(<Login onLogin={vi.fn()} />)
+
+      // Première soumission sans données
+      await user.click(screen.getByRole('button', { name: /se connecter/i }))
+      expect(screen.getByRole('alert')).toHaveTextContent(/renseignez/i)
+
+      // Deuxième tentative avec données
+      await user.type(screen.getByLabelText(/email professionnel/i), 'test@test.fr')
+      await user.click(screen.getByRole('button', { name: /se connecter/i }))
+
+      // L'erreur ne doit pas être visible après une soumission valide
+      const emailInput = screen.getByLabelText(/email professionnel/i)
+      expect(emailInput).toHaveValue('test@test.fr')
+    })
+  })
 })

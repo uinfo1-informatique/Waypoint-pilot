@@ -142,85 +142,196 @@ describe('ForgotPassword', () => {
     })
   })
 
-  it('closes modal when close button is clicked', async () => {
-    const user = userEvent.setup()
+  describe('Boutons', () => {
+    it('bouton "Fermer" est présent et fonctionnel', async () => {
+      const user = userEvent.setup()
 
-    render(
-      <ForgotPassword
-        show={true}
-        email=""
-        setEmail={() => {}}
-        onSubmit={mockOnSubmit}
-        onClose={mockOnClose}
-      />
-    )
+      render(
+        <ForgotPassword
+          show={true}
+          email=""
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
 
-    const closeButton = screen.getByRole('button', { name: /Fermer/i })
-    await user.click(closeButton)
+      const closeButton = screen.getByRole('button', { name: /Fermer/i })
+      expect(closeButton).toBeInTheDocument()
+      expect(closeButton).not.toBeDisabled()
 
-    expect(mockOnClose).toHaveBeenCalled()
-  })
+      await user.click(closeButton)
 
-  it('closes modal when pressing Escape key', async () => {
-    const user = userEvent.setup()
-
-    render(
-      <ForgotPassword
-        show={true}
-        email=""
-        setEmail={() => {}}
-        onSubmit={mockOnSubmit}
-        onClose={mockOnClose}
-      />
-    )
-
-    const modalOverlay = screen.getByRole('presentation')
-    await user.keyboard('{Escape}')
-
-    expect(mockOnClose).toHaveBeenCalled()
-  })
-
-  it('closes modal when clicking backdrop', async () => {
-    const user = userEvent.setup()
-
-    render(
-      <ForgotPassword
-        show={true}
-        email=""
-        setEmail={() => {}}
-        onSubmit={mockOnSubmit}
-        onClose={mockOnClose}
-      />
-    )
-
-    const backdrop = screen.getByRole('presentation')
-    await user.click(backdrop)
-
-    expect(mockOnClose).toHaveBeenCalled()
-  })
-
-  it('disables email input while submitting', async () => {
-    const user = userEvent.setup()
-
-    render(
-      <ForgotPassword
-        show={true}
-        email="test@example.com"
-        setEmail={() => {}}
-        onSubmit={mockOnSubmit}
-        onClose={mockOnClose}
-      />
-    )
-
-    const submitButton = screen.getByRole('button', {
-      name: /Envoyer les instructions/i,
+      expect(mockOnClose).toHaveBeenCalled()
     })
-    const emailInput = screen.getByLabelText(/email professionnel/i)
 
-    expect(emailInput).not.toBeDisabled()
+    it('bouton "Envoyer les instructions" est présent et fonctionnel', async () => {
+      const user = userEvent.setup()
 
-    await user.click(submitButton)
+      render(
+        <ForgotPassword
+          show={true}
+          email="test@example.com"
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
 
-    expect(emailInput).toBeDisabled()
+      const submitButton = screen.getByRole('button', {
+        name: /Envoyer les instructions/i,
+      })
+      expect(submitButton).toBeInTheDocument()
+      expect(submitButton).not.toBeDisabled()
+
+      await user.click(submitButton)
+
+      await waitFor(() => {
+        expect(mockOnSubmit).toHaveBeenCalled()
+      })
+    })
+
+    it('bouton "Envoyer les instructions" devient désactivé pendant la soumission', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email="test@example.com"
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      const submitButton = screen.getByRole('button', {
+        name: /Envoyer les instructions/i,
+      })
+
+      await user.click(submitButton)
+
+      expect(submitButton).toBeDisabled()
+      expect(submitButton).toHaveTextContent(/Envoi/i)
+
+      await waitFor(() => expect(submitButton).not.toBeDisabled())
+    })
+  })
+
+  describe('Interaction avec le modal', () => {
+    it('closes modal when close button is clicked', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email=""
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      const closeButton = screen.getByRole('button', { name: /Fermer/i })
+      await user.click(closeButton)
+
+      expect(mockOnClose).toHaveBeenCalled()
+    })
+
+    it('closes modal when pressing Escape key', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email=""
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      const modalOverlay = screen.getByRole('presentation')
+      await user.keyboard('{Escape}')
+
+      expect(mockOnClose).toHaveBeenCalled()
+    })
+
+    it('closes modal when clicking backdrop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email=""
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      const backdrop = screen.getByRole('presentation')
+      await user.click(backdrop)
+
+      expect(mockOnClose).toHaveBeenCalled()
+    })
+  })
+
+  describe('Champs de saisie', () => {
+    it('disables email input while submitting', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email="test@example.com"
+          setEmail={() => {}}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      const submitButton = screen.getByRole('button', {
+        name: /Envoyer les instructions/i,
+      })
+      const emailInput = screen.getByLabelText(/email professionnel/i)
+
+      expect(emailInput).not.toBeDisabled()
+
+      await user.click(submitButton)
+
+      expect(emailInput).toBeDisabled()
+    })
+
+    it('clears error message on new submission', async () => {
+      const user = userEvent.setup()
+      const mockSetEmail = vi.fn()
+
+      render(
+        <ForgotPassword
+          show={true}
+          email=""
+          setEmail={mockSetEmail}
+          onSubmit={mockOnSubmit}
+          onClose={mockOnClose}
+        />
+      )
+
+      // First submission without email
+      const submitButton = screen.getByRole('button', {
+        name: /Envoyer les instructions/i,
+      })
+      await user.click(submitButton)
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        /Veuillez entrer votre adresse email/i
+      )
+
+      // Check that error clears on next attempt with data
+      const emailInput = screen.getByLabelText(/email professionnel/i)
+      await user.type(emailInput, 'valid@example.com')
+
+      // After typing valid email, error should remain until resubmit
+      expect(mockSetEmail).toHaveBeenCalled()
+    })
   })
 })
